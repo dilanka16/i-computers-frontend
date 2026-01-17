@@ -1,19 +1,16 @@
 
 import './App.css'
-import Productcard from './components/productCard'
+
 
 function App() {
   
-
   return (
-    <>
-     
-     <Productcard name="Laptop" price="100,000" image="https://picsum.photos/seed/picsum/200/300"/>
-     <Productcard name="phone" price="800,000" image="https://picsum.photos/seed/picsum/200/300"/> 
-     <Productcard name="Watch" price="50,000" image="https://picsum.photos/seed/picsum/200/300"/>
-     
-    </>
+    <div className="w-[ 233px] h-[629.75px] border bg-cyan-500">
+
+    </div>
   )
+
+  
 }
 
 export default App
