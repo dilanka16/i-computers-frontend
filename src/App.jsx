@@ -15,10 +15,10 @@ function App() {
     <BrowserRouter>
     <div className="w-full h-screen bg-primary text-secondary">
       <Routes path="/">
-      <Route path="/" element={<HomePage/>} />
+      <Route path="/*" element={<HomePage/>} />
       <Route path="/login" element={<LoginPage/>} />
       <Route path="/register" element={<ResgisterPage/>} />
-      <Route path="/admin" element={<AdminPage/>} />
+      <Route path="/admin/*" element={<AdminPage/>} />
 
       </Routes>
 
