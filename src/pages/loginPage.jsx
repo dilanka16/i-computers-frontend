@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 
 export default function LoginPage(){
 
     const [ email , setEmail ] = useState("");
     const [ password , setPassword ] = useState("");
+    const navigate = useNavigate()
 
     async function login(){
         console.log("Email:", email);
@@ -18,12 +20,26 @@ export default function LoginPage(){
             password : password
         })
         console.log(res);
-        alert("login Succesful! Welcome back.")
+
+        if(res.data.role == "admin"){
+           // window.location.href = "/admin";
+            navigate("/admin")
+
+
+        }else{
+
+            //window.location.href = "/";
+            navigate("/")
+        }
+       // alert("login Succesful! Welcome back.")
+
+       toast.success("login Succesful! Welcome back.");
         
        
 
         }catch(err){
-            alert("Login failed! Please check your credentials and try again");
+           // alert("Login failed! Please check your credentials and try again");
+           toast.error("Login failed! Please check your credentials and try again");
             console.log("Error during login:");
             console.log(err);
         }
