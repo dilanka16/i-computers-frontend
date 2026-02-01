@@ -1,62 +1,120 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { BiPlus } from "react-icons/bi";
 import { Link } from "react-router-dom";
 
-const products = []
+const products = [];
 
-export default function AdminProductsPage(){
-    const [products , setProducts] = useState([])
-    axios.get(import.meta.env.VITE_BACKEND_URL + "/products").then(
-        (response) => {
-            console.log(response.data);
-            setProducts(response.data)
-        }
-    )
-    return(
-        <div className="w-full max-h-full flex justify-center p-10 relative">
-            <table>
-                <thead className="h-[100px]">
-                     <tr>
-                        <th>Images</th>
-                        <th>Product ID</th>
-                         <th>Name</th>
-                          <th>Price</th>
-                           <th>Labelled Price</th>
-                            <th>Category</th>
-                            <th>Brand</th>
-                            <th>Model</th>
-                            <th>Stock</th>
-                            <th>Availability</th>
-                        </tr>   
-                </thead>
-                <tbody>
-                    {
-                        products.map(
-                            (item,index)=>{
-                                return (
-                                    <tr key={index}>
-                        <td><img src={item.images[0]} className="w-[30px] h-[30px]" /></td>
-                        <td>{item.productID}</td>
-                        <td>{item.name}</td>
-                        <td>{item.price}</td>
-                        <td>{item.labelledPrice}</td>
-                        <td>{item.category}</td>
-                        <td>{item.brand}</td>
-                        <td>{item.model}</td>
-                        <td>{item.stock}</td>
-                        <td>{item.isAvailable}</td>
-                        
-                    </tr>
-                                )
-                            }
-                        )
-                    }
+export default function AdminProductsPage() {
+  const [products, setProducts] = useState([]);
+  const [loaded , setLoaded] = useState(false);
 
-                </tbody>
-            </table>
+  useEffect(() => {
+    if(!loaded){
+        axios
+      .get(import.meta.env.VITE_BACKEND_URL + "/products")
+      .then((response) => {
+        console.log(response.data);
+        setProducts(response.data);
+        setLoaded(true);
+      });
+    }
+    
+  }, [loaded]);
 
-            <Link to="/admin/add-product" className="fixed right-[20px] bottom-[20px] w-[50px] h-[50px] flex justify-center items-center text-6xl border-[2px] rounded-full hover:text-white hover:bg-accent text-accent border-accent"><BiPlus /></Link>
+  return (
+    <div className="w-full h-full p-10 bg-primary flex justify-center">
+      <div className="w-full max-w-7xl bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="overflow-x-auto">
+          {loaded?<table className="w-full text-sm text-left text-secondary">
+            <thead className="bg-secondary text-white sticky top-0 z-10">
+              <tr className="h-[60px]">
+                <th className="px-4">Image</th>
+                <th className="px-4">Product ID</th>
+                <th className="px-4">Name</th>
+                <th className="px-4">Price</th>
+                <th className="px-4">Labelled Price</th>
+                <th className="px-4">Category</th>
+                <th className="px-4">Brand</th>
+                <th className="px-4">Model</th>
+                <th className="px-4">Stock</th>
+                <th className="px-4">Availability</th>
+                <th className="px-4">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {products.map((item, index) => {
+                return (
+                  <tr
+                    key={index}
+                    className="border-b hover:bg-primary transition duration-200"
+                  >
+                    <td className="px-4 py-3">
+                      <img
+                        src={item.images[0]}
+                        className="w-[40px] h-[40px] object-cover rounded-md border"
+                      />
+                    </td>
+                    <td className="px-4 py-3 font-medium">
+                      {item.productID}
+                    </td>
+                    <td className="px-4 py-3">{item.name}</td>
+                    <td className="px-4 py-3 font-semibold">
+                      Rs.{item.price}
+                    </td>
+                    <td className="px-4 py-3 text-gray-500">
+                      Rs.{item.labelledPrice}
+                    </td>
+                    <td className="px-4 py-3">{item.category}</td>
+                    <td className="px-4 py-3">{item.brand}</td>
+                    <td className="px-4 py-3">{item.model}</td>
+                    <td className="px-4 py-3">{item.stock}</td>
+                    <td className="px-4 py-3">
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                          item.isAvailable
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
+                      >
+                        {item.isAvailable ? "Available" : "Unavailable"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-accent cursor-pointer hover:underline">
+                      <button onClick={
+                        ()=>{
+                            const token = localStorage.getItem("token")
+                            axios.delete(import.meta.env.VITE_BACKEND_URL + "/products/" + item.productID, {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }).then(
+                                ()=>{
+                                    toast.success("Product deleted successfully");
+                                    setLoaded(false);
+                                }
+                            )
+                        }
+                      } className="w-[100px] bg-red-500 flex justify-center items-center text-white p-2 rounded-lg cursor-pointer hover:bg-red-700">Delete</button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>:<div className="w-full h-screen fixed top-0 bg-red-900 bg-black/45 flex justify-center items-center">    
+          <div className="w-[100px] h-[100px] border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
+          </div>}
         </div>
-    )
+      </div>
+
+      <Link
+        to="/admin/add-product"
+        className="fixed right-6 bottom-6 w-[56px] h-[56px] flex justify-center items-center text-3xl rounded-full bg-accent text-white shadow-lg hover:scale-110 transition-all duration-300"
+      >
+        <BiPlus />
+      </Link>
+    </div>
+  );
 }
