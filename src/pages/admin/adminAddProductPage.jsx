@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineProduct } from "react-icons/ai";
 import toast from "react-hot-toast";
 import axios from "axios";
+import uploadFile from "../../utils/mediaUpload";
 
 export default function AdminProductPage() {
 
@@ -12,7 +13,7 @@ export default function AdminProductPage() {
     const [desciption , setDesciption] = useState("");
     const [price , setPrice] = useState(0);
     const [labelledPrice , setLabelledPrice] = useState(0);
-    const [images , setImages] = useState("");
+    const [files , setFiles] = useState([]);
     const [category , setCategory] = useState("");
     const [brand , setBrand] = useState("");
     const [model , setModel] = useState("");
@@ -28,13 +29,32 @@ export default function AdminProductPage() {
             navigate("/login");
             return;
         }
+        console.log(files);
+
+const imagePromises = [];
+
+for(let i=0; i<files.length; i++){
+    const promise = uploadFile(files[i]);
+    imagePromises.push(promise);
+}
+const images = await Promise.all(imagePromises).catch((err)=>{
+    toast.error("Error uploading images. Please try again.");
+    console.log("Error uploading images");
+    console.log(err);
+    return;
+})
+
+
+
+
+
         if(productID=="" || name=="" || desciption=="" || price=="" || category==""){
             toast.error("Please fill in all required fields.");
             return;
         }
         try{
             const altNamesInArray = altNames.split(",")
-            const imagesInArray = images.split(",")
+           
             await axios.post(import.meta.env.VITE_BACKEND_URL + "/products/",{
                 productID : productID,
                 name : name,
@@ -42,7 +62,7 @@ export default function AdminProductPage() {
                 desciption : desciption,
                 price : price,
                 labelledPrice : labelledPrice,
-                images : imagesInArray,
+                images : images,
                 category : category,
                 brand : brand,
                 model : model,
@@ -142,9 +162,11 @@ export default function AdminProductPage() {
                     <div className="col-span-2">
                         <label className="block font-semibold mb-1">Images</label>
                         <input
-                            type="text"
-                            value={images}
-                            onChange={(e)=>{setImages(e.target.value)}}
+                            type="file"
+                            multiple={true}
+                            onChange={(e)=>{setFiles(e.target.files);
+
+                            }}
                             className="w-full h-10 rounded-xl border border-accent px-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-accent"
                         />
                     </div>
