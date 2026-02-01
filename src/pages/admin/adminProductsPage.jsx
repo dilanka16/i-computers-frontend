@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { BiPlus } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import Loader from "../../components/loader";
 
 const products = [];
 
@@ -103,9 +104,7 @@ export default function AdminProductsPage() {
                 );
               })}
             </tbody>
-          </table>:<div className="w-full h-screen fixed top-0 bg-red-900 bg-black/45 flex justify-center items-center">    
-          <div className="w-[100px] h-[100px] border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
-          </div>}
+          </table>:<Loader />}
         </div>
       </div>
 
