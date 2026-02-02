@@ -5,6 +5,7 @@ import { FaRegUser } from "react-icons/fa";
 import { MdOutlineRateReview } from "react-icons/md";
 import AdminProductsPage from "./admin/adminProductsPage";
 import AdminProductPage from "./admin/adminAddProductPage";
+import AdminUpdateProductPage from "./admin/adminUpdateProductPage";
 
 
 export default function AdminPage() {
@@ -33,6 +34,7 @@ export default function AdminPage() {
                 <Route path="/" element={<h1>Orders</h1>} />
                 <Route path="/products" element={<AdminProductsPage/>} />
                 <Route path="/add-product" element={<AdminProductPage/>} />
+                <Route path="/update-product" element={<AdminUpdateProductPage/>} />
                 <Route path="/users" element={<h1>Users</h1>} />
                 <Route path="/reviews" element={<h1>Reviews</h1>} />
                     

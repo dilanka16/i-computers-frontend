@@ -2,13 +2,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { BiPlus } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Loader from "../../components/loader";
 import ProductDeleteButton from "../../components/productDeleteButton";
 
 
 
 export default function AdminProductsPage() {
+    
   const [products, setProducts] = useState([]);
   const [loaded , setLoaded] = useState(false);
 
@@ -84,7 +85,11 @@ export default function AdminProductsPage() {
                         {item.isAvailable ? "Available" : "Unavailable"}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-accent cursor-pointer hover:underline">
+                    <td className="px-4 py-3 text-accent cursor-pointer hover:underline gap-2 inline-flex items-center">
+                        <Link to="/admin/update-product"
+                         className="px-3 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition"
+                         state={item} >  
+                            Edit</Link>
                      <ProductDeleteButton productID = {item.productID} reload={()=>{setLoaded(false)}} />
                     </td>
                   </tr>
