@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../components/loader";
 import Imageslider from "../components/imageSlider";
 import { CgChevronRight } from "react-icons/cg";
-import { addtoCart, getCart } from "../utils/cart";
+import { addtoCart } from "../utils/cart";
 
 export default function ProductOverview() {
+    const navigate = useNavigate();
     const params = useParams();
     const [product, setProduct] = useState(null);
     const [status, setStatus] = useState("loading");
@@ -70,7 +71,14 @@ export default function ProductOverview() {
                             </button>
                              <button onClick={
                                 ()=>{
-                                    console.log(getCart())
+                                    navigate("/checkout", { state: [{
+                                        productID: product.productID,
+                                        name: product.name,
+                                        price: product.price,
+                                        labelledPrice: product.labelledPrice,
+                                        image: product.images[0],
+                                        quantity: 1
+                                    }]})
                                 }
                              } className="border-2 border-accent text-accent px-6 py-3 rounded hover:bg-accent hover:text-white">
                             Buy Now
