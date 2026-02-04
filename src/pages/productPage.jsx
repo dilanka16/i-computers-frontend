@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import Loader from "../components/loader";
+import Productcard from "../components/productCard";
 
 export default function ProductPage(){
 
@@ -20,19 +21,15 @@ export default function ProductPage(){
 
     },[])
     return(
-        <div className="w-full h-[calc(100vh-100px)]">
+        <div className="w-full h-[calc(100vh-100px)] ">
             {
                 !loaded?(<Loader/>):
-                <div className="w-full flex justify-center p-4">
+                <div className="w-full flex justify-center p-4 flex flex-row flex-wrap">
                     {
                         products.map(
                             (item)=>{
                                 return(
-                                    <div>
-                                        <h1>{item.name}</h1>
-                                        <img src={item.images[0]} className="w-32 h-32 object-contain" />
-                                        <p>{item.description}</p>
-                                    </div>
+                                    <Productcard key={item.productID} product={item} />
                                 )
 
                             }
