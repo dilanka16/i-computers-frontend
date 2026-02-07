@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Loader from "../../components/loader";
+import ViewOrderInfo from "../../components/viewOrderinfo";
 
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -35,7 +36,7 @@ export default function AdminOrdersPage() {
         <div className="overflow-x-auto">
           {loaded ? (
             <table className="w-full text-sm text-left text-secondary">
-              <thead className="bg-secondary text-white sticky top-0 z-10">
+              <thead className="bg-secondary text-white sticky top-0">
                 <tr className="h-[60px]">
                   <th className="px-4">Order ID</th>
                   <th className="px-4">Customer email</th>
@@ -63,7 +64,7 @@ export default function AdminOrdersPage() {
                     <td className="px-4 py-3">
                       Rs.{Number(order.total).toFixed(2)}
                     </td>
-                    <td className="px-4 py-3">—</td>
+                    <td className="px-4 py-3"><ViewOrderInfo order={order} /></td>
                   </tr>
                 ))}
               </tbody>
