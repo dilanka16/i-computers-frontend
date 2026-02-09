@@ -1,5 +1,6 @@
 import { BiShoppingBag } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import UserData from "./userData";
 
 
 export default function Header() {
@@ -11,6 +12,10 @@ export default function Header() {
                 <Link to="/products">Products</Link>
                 <Link to="/about">About</Link>
                 <Link to="/contact">Contact</Link>
+
+            </div>
+            <div className="absolute right-24 top-0 h-full flex items-center">
+                <UserData />
 
             </div>
             <Link to="/cart" className="absolute right-4 top-1/4 translate-y-1/2 text-primary text-2xl">
