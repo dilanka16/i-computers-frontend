@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { GrGoogle } from "react-icons/gr";
+import { useGoogleLogin } from "@react-oauth/google";
 
 
 export default function LoginPage(){
@@ -9,6 +11,25 @@ export default function LoginPage(){
     const [ email , setEmail ] = useState("");
     const [ password , setPassword ] = useState("");
     const navigate = useNavigate()
+    const googleLogin = useGoogleLogin({
+        onSuccess: (response)=>{
+            axios.post(import.meta.env.VITE_BACKEND_URL + "/users/google-login",{
+                token: response.access_token,
+            }).then((res)=>{
+                localStorage.setItem("token", res.data.token);
+                if(res.data.role == "admin") {
+                    navigate("/admin");
+                }else{
+                    navigate("/")
+                }
+                toast.success("Login successful!")
+            }).catch((err)=>{
+                console.log(err);
+            })
+        },
+        onError: ()=> { toast.error("Google Login Failed");},
+        onNonOAuthError: ()=> {toast.error("Google Login Failed");},
+    })
 
     async function login(){
         console.log("Email:", email);
@@ -75,9 +96,10 @@ export default function LoginPage(){
                         }
                     } type="password" placeholder="your password" className="w-full h-[50px] rounded-lg border border-accent p-[10px] text-[20px] focus:outline-none focus:ring-2 focus:ring-blue-500" />
 
-                    <p className="text-white not-italic w-full text-right mb-[20px] mr-[200px]">Forget your password?<Link to="/register" className="text-blue-500 italic">Reset it here</Link></p>
+                    <p className="text-white not-italic w-full text-right mb-[20px] mr-[200px]">Forget your password?<Link to="/forgot-password" className="text-blue-500 italic">Reset it here</Link></p>
 
-                    <button onClick={login} className="w-full h-[50px] bg-accent text-white font-bold text-[20px] rounded-lg border-[2px] border-accent hover:bg-transparent hover:text-accent">Login</button>
+                    <button onClick={login} className="w-full h-[50px] mb-[20px] bg-accent text-white font-bold text-[20px] rounded-lg border-[2px] border-accent hover:bg-transparent hover:text-accent">Login</button>
+                    <button onClick={googleLogin} className="w-full h-[50px] bg-accent text-white font-bold text-[20px] rounded-lg border-[2px] border-accent hover:bg-transparent hover:text-accent">Login with <GrGoogle className="inline ml-2 mb-1" /></button>
                     <p className="text-white not-italic">Don't have an account?<Link to="/register" className="text-blue-500 italic">Register here</Link></p>
                 </div>
 

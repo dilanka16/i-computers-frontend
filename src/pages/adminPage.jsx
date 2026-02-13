@@ -10,6 +10,7 @@ import AdminOrdersPage from "./admin/adminOrdersPage";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "../components/loader";
+import AdminUsersPage from "./admin/adminUsersPage";
 
 
 export default function AdminPage() {
@@ -50,6 +51,7 @@ export default function AdminPage() {
                     <Link to="/admin/products" className="w-full flex items-center h-[50px] gap-[10px]"> <LuBoxes /> Products</Link>
                     <Link to="/admin/users" className="w-full flex items-center h-[50px] gap-[10px]"> <FaRegUser />Users</Link>
                     <Link to="/admin/reviews" className="w-full flex items-center h-[50px] gap-[10px]"> <MdOutlineRateReview />Reviews</Link>
+
                     
 
                     
@@ -63,8 +65,10 @@ export default function AdminPage() {
                 <Route path="/products" element={<AdminProductsPage/>} />
                 <Route path="/add-product" element={<AdminProductPage/>} />
                 <Route path="/update-product" element={<AdminUpdateProductPage/>} />
+                <Route path="/users" element={<AdminUsersPage/>} />
                 <Route path="/users" element={<h1>Users</h1>} />
                 <Route path="/reviews" element={<h1>Reviews</h1>} />
+
                     
                 </Routes>
                

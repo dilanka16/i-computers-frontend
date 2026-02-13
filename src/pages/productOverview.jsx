@@ -48,6 +48,11 @@ export default function ProductOverview() {
                         <h1 className="text-4xl font-semibold">{product.name}</h1>
                         <h2 className="text-lg text-secondary/80">{product.productID}</h2>
                         <h3 className="text-lg text-secondary/80 flex items-center"><CgChevronRight/>{product.category}</h3>
+                        {product.altNames && product.altNames.length > 0 && (
+                            <h3 className="text-md text-secondary/80">
+                                {product.altNames.join(", ")}
+                            </h3>
+                        )}
                         <p className="text-md text-justify text-secondary/80 h-20 overflow-y-auto">{product.description}</p>
                         <div className="w-full">
                             {product.labelledPrice > product.price && (

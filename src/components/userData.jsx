@@ -25,7 +25,7 @@ export default function UserData(){
         {
             user?
             <div className="W-[150PX] flex flex-row">
-                <img src={user.image} className="w-[50px] h-[50px] rounded-full" />
+                <img src={user.image} referrerPolicy="no-referrer" className="w-[50px] h-[50px] rounded-full" />
                 <select className="bg-transparent outline-none ml-2 mt-4 text-white" value={selectedoption}  onChange={
                     (e)=>{
                         if(e.target.value == "logout"){
@@ -39,7 +39,7 @@ export default function UserData(){
                 }>
                     <option className="bg-accent" selected={"user"}>{user.firstName}</option>
                     <option className="bg-accent" value={"logout"}>Logout</option>
-                    <option className="bg-accent"value={"My-orders"}>My Orders</option>
+                    <option className="bg-accent"value={"my-orders"}>My Orders</option>
                 </select>
                 
 
