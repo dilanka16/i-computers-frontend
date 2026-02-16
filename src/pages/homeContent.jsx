@@ -65,15 +65,15 @@ export default function Home() {
         {/* Main Title with Glitch Effect */}
         <h1 className="relative text-5xl md:text-7xl font-black mb-6 tracking-tight group">
           <span className="absolute inset-0 text-cyan-400 animate-glitch-1 opacity-70">
-            Welcome to I-Computers
+            Welcome to Ceylon-Computers
           </span>
           <span className="absolute inset-0 text-purple-400 animate-glitch-2 opacity-70">
-            Welcome to I-Computers
+            Welcome to Ceylon-Computers
           </span>
           <span className="relative bg-gradient-to-r from-cyan-400 via-white to-purple-400 bg-clip-text text-transparent animate-gradient-x">
             Welcome to{" "}
             <span className="inline-block hover:scale-110 transition-transform duration-300">
-              I-Computers
+              Ceylon-Computers
             </span>
           </span>
         </h1>
